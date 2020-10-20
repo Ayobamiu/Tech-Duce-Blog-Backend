@@ -30,7 +30,11 @@ router.get("/blogs/me", auth, async (req, res) => {
 router.get("/blogs/:id", async (req, res) => {
   try {
     const blog = await Blog.findById(req.params.id);
-    res.send(blog);
+    await blog.populate("comments").execPopulate();
+    const comments = blog.comments;
+    ++blog.views;
+    await blog.save();
+    res.send({ blog, comments });
   } catch (error) {
     res.status(404).send({ error: error.message });
   }

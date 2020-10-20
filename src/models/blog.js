@@ -6,6 +6,7 @@ const blogSchema = mongoose.Schema(
     title: {
       type: String,
       required: true,
+      unique: true,
       trim: true,
     },
     body: {
@@ -22,6 +23,10 @@ const blogSchema = mongoose.Schema(
       type: Number,
       default: 0,
     },
+    views: {
+      type: Number,
+      default: 0,
+    },
     owner: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
@@ -30,6 +35,12 @@ const blogSchema = mongoose.Schema(
   },
   { timestamps: true }
 );
+
+blogSchema.virtual("comments", {
+  ref: "Comment",
+  localField: "_id",
+  foreignField: "blog",
+});
 
 const Blog = mongoose.model("Blog", blogSchema);
 
