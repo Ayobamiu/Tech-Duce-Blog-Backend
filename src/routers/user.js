@@ -46,6 +46,9 @@ router.patch("/users/me", auth, async (req, res) => {
     "bio",
     "interests",
     "twitter_link",
+    "linkedIn_link",
+    "facebook_link",
+    "medium_link",
     "password",
   ];
   const isValidOperation = updates.every((update) =>
