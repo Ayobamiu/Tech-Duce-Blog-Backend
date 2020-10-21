@@ -80,8 +80,8 @@ router.post("/users/login", async (req, res) => {
       req.body.email,
       req.body.password
     );
-    if(!user){
-      res.status(404).send("Credential is not a match")
+    if (!user) {
+      res.status(404).send("Credential is not a match");
     }
     const token = await user.generateAuthToken();
 
@@ -122,10 +122,7 @@ router.post("/users/start-reset-password", async (req, res) => {
     if (!user) {
       return res.status(400).send({ error: "Email not registered." });
     }
-    const token = jwt.sign(
-      { _id: user._id.toString(), email },
-      "thisismyjsonsignature"
-    );
+    const token = jwt.sign({ _id: user._id.toString(), email }, process.env.JWT_SECRET);
     resetPasswordMessage(email, token);
     res.send(token);
   } catch (error) {
@@ -135,7 +132,7 @@ router.post("/users/start-reset-password", async (req, res) => {
 
 router.patch("/users/reset-password/:token", async (req, res) => {
   const token = req.params.token;
-  const decoded = jwt.verify(token, "thisismyjsonsignature");
+  const decoded = jwt.verify(token, process.env.JWT_SECRET);
   const userId = decoded._id;
   const userEmail = decoded.email;
   const password_one = req.body.password_one;

@@ -5,6 +5,7 @@ const userRouter = require("./routers/user");
 const commentRouter = require("./routers/comment");
 require("./db/mongoose");
 
+const PORT = process.env.PORT
 const app = express();
 
 app.use(cors({ origin: "http://localhost:3000" }));
@@ -14,6 +15,6 @@ app.use(blogRouter);
 app.use(commentRouter);
 app.use(userRouter);
 
-app.listen(3001, () => {
-  console.log("Server is up and running at Port 3001");
+app.listen(PORT, () => {
+  console.log(`Server is up and running at Port PORT`);
 });

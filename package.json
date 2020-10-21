@@ -18,5 +18,8 @@
     "mongoose": "^5.10.7",
     "nodemon": "^2.0.4",
     "validator": "^13.1.17"
+  },
+  "engines": {
+    "node": "13.11.0"
   }
 }
