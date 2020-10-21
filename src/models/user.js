@@ -2,7 +2,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
 const validator = require("validator");
-const Blog = require("../models/blog")
+const Blog = require("../models/blog");
 
 const userSchema = mongoose.Schema(
   {
@@ -55,6 +55,21 @@ const userSchema = mongoose.Schema(
       required: true,
       trim: true,
     },
+    linkedIn_link: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    facebook_link: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    medium_link: {
+      type: String,
+      required: true,
+      trim: true,
+    },
     password: {
       type: String,
       required: true,
@@ -79,6 +94,18 @@ userSchema.pre("remove", async function (next) {
 
 userSchema.virtual("blogs", {
   ref: "Blog",
+  localField: "_id",
+  foreignField: "owner",
+});
+
+userSchema.virtual("comments", {
+  ref: "Comment",
+  localField: "_id",
+  foreignField: "owner",
+});
+
+userSchema.virtual("likes", {
+  ref: "Like",
   localField: "_id",
   foreignField: "owner",
 });

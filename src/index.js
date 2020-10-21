@@ -1,12 +1,13 @@
+const cors = require("cors");
 const express = require("express");
 const blogRouter = require("./routers/blog");
 const userRouter = require("./routers/user");
 const commentRouter = require("./routers/comment");
-const User = require("./models/user");
-const Blog = require("./models/blog");
 require("./db/mongoose");
 
 const app = express();
+
+app.use(cors({ origin: "http://localhost:3000" }));
 
 app.use(express.json());
 app.use(blogRouter);

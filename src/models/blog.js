@@ -23,6 +23,10 @@ const blogSchema = mongoose.Schema(
       type: Number,
       default: 0,
     },
+    isLiked: {
+      type: Boolean,
+      default: false,
+    },
     views: {
       type: Number,
       default: 0,

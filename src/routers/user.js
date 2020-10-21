@@ -14,12 +14,16 @@ const router = express.Router();
 router.post("/users", async (req, res) => {
   try {
     const user = new User(req.body);
+    const existingUser = await User.findOne({ email: user.email });
+    if (existingUser) {
+      return res.status(400).send("Email already registered!");
+    }
     const token = await user.generateAuthToken();
     await user.save();
     sendWelcomeMessage(user.email, user.username);
     res.status(201).send({ user, token });
   } catch (error) {
-    res.status(400).send({ error: error.message });
+    res.status(400).send(error.message);
   }
 });
 
@@ -28,7 +32,7 @@ router.get("/users/me", auth, async (req, res) => {
     const user = req.user;
     res.send(user);
   } catch (error) {
-    res.status(404).send({ error: error.message });
+    res.status(404).send(error);
   }
 });
 
@@ -76,12 +80,14 @@ router.post("/users/login", async (req, res) => {
       req.body.email,
       req.body.password
     );
-
+    if(!user){
+      res.status(404).send("Credential is not a match")
+    }
     const token = await user.generateAuthToken();
 
     res.send({ user, token });
   } catch (error) {
-    res.status(400).send({ error: error.message });
+    res.status(400).send(error.message);
   }
 });
 
