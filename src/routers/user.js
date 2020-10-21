@@ -122,7 +122,10 @@ router.post("/users/start-reset-password", async (req, res) => {
     if (!user) {
       return res.status(400).send({ error: "Email not registered." });
     }
-    const token = jwt.sign({ _id: user._id.toString(), email }, process.env.JWT_SECRET);
+    const token = jwt.sign(
+      { _id: user._id.toString(), email },
+      process.env.JWT_SECRET
+    );
     resetPasswordMessage(email, token);
     res.send(token);
   } catch (error) {
@@ -142,6 +145,7 @@ router.patch("/users/reset-password/:token", async (req, res) => {
   }
   try {
     const user = await User.findOne({ _id: userId, email: userEmail });
+    console.log(user);
     if (!user) {
       return res.status(400).send({ error: "Email not registered." });
     }
@@ -149,7 +153,7 @@ router.patch("/users/reset-password/:token", async (req, res) => {
     await user.save();
     res.send(user);
   } catch (error) {
-    res.status(500).send();
+    res.status(500).send(error);
   }
 });
 

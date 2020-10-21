@@ -16,5 +16,5 @@ app.use(commentRouter);
 app.use(userRouter);
 
 app.listen(PORT, () => {
-  console.log(`Server is up and running at Port PORT`);
+  console.log(`Server is up and running at Port ${PORT}`);
 });

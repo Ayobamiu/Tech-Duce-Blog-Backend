@@ -38,7 +38,7 @@ const resetPasswordMessage = (email, token) => {
     to: email,
     from: "usman.ayobami.g20@gmail.com", // Use the email address or domain you verified above
     subject: "Reset Password",
-    text: `Click the followiing link to reset password  http://localhost:3001/users/reset-password/${token}`,
+    text: `Click the followiing link to reset password  ${process.env.ORIGIN_URL}/reset-password/${token}`,
   };
 
   sgMail.send(msg);
